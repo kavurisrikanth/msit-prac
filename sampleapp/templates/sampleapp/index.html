@@ -6,14 +6,14 @@
 
 {% block content %}
     <div class="row">
-        <div class="col">
-            <form method="get" action="{% url 'sampleapp:signup' %}">
+        <div class="col span6 sign_up_div index_part">
+            <form class="button" method="get" action="{% url 'sampleapp:signup' %}">
                 <input type="submit" value="Sign up">
             </form>
         </div>
 
-        <div class="col">
-            <form method="get" action="{% url 'sampleapp:signin' %}">
+        <div class="col span6 sign_in_div index_part">
+            <form class="button" method="get" action="{% url 'sampleapp:signin' %}">
                 <input type="submit" value="Sign in">
             </form>
         </div>

@@ -5,5 +5,25 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+    <div class="row">
+        <div class="col details_div box_div">
+            <h3>User Details</h3>
+            <hr>
+
+            <table class="details_table">
+                <tr>
+                    <td><p class="bold_here">Username: </p></td>
+                    <td><p>{{ user.username }}</p></td>
+                </tr>
+                <tr>
+                    <td><p class="bold_here">Name: </p></td>
+                    <td><p>{{ user.first_name }} {{ user.last_name }}</p></td>
+                </tr>
+                <tr>
+                    <td><p class="bold_here">Email: </p></td>
+                    <td><p>{{ user.email }}</p></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 {% endblock %}

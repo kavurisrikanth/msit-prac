@@ -23,14 +23,12 @@ from .forms import SignUpForm
 #     def get(self, request):
 #         return render(request, 'sampleapp/index.html')
 
-class IndexView(TemplateView):
-    template_name = 'sampleapp/index.html'
 
-    def get_context_data(self, **kwargs):
-        context = TemplateView().get_context_data(**kwargs)
-        if self.request.user:
-            context['user'] = self.request.user
-        return context
+def index_view(request):
+    template = 'sampleapp/index.html'
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('sampleapp:profile'))
+    return render(request, template)
 
 
 def signup_view(request):
@@ -159,4 +157,14 @@ class SignInView(View):
         else:
             context = {'error': 'Username %s does not exist.' % uname}
             return render(request, 'sampleapp/signin.html', context)
+            
+        
+class IndexView(TemplateView):
+    template_name = 'sampleapp/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = TemplateView().get_context_data(**kwargs)
+        if self.request.user:
+            context['user'] = self.request.user
+        return context
 '''

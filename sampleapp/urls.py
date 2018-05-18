@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 # from views import (
 #     IndexView,
 #     SignInView,
@@ -12,7 +12,7 @@ from . import views
 
 app_name = 'sampleapp'
 urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.index_view, name='index'),
     url(r'^signup/$', views.signup_view, name='signup'),
     url(r'^signin/$', views.signin_view, name='signin'),
     url(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),

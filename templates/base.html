@@ -4,29 +4,33 @@
     <meta charset="UTF-8">
     <title>{% block head_title %}{% endblock head_title %}</title>
     {% include "snippets/css.html" %}
-    {% include "snippets/js.html" %}
 </head>
 <body>
     <div class="container">
-        <h1>Ting!</h1>
-        <div class="row">
-            <div class="col home_link">
-                <a href="{% url 'sampleapp:index' %}">Home</a>
-            </div>
+        <div class="row main_bar">
+{#            <div class="col home_link">#}
+{#                <a class="some_link" href="{% url 'sampleapp:index' %}">Home</a>#}
+{#            </div>#}
 
-            <div class="col profile_link_class">
-                <a class="profile_link_tag" href="#">Profile</a>
+            <div class="col bar_title" onclick="window.location='{% url 'sampleapp:index' %}'">
+                <h2>Ting!</h2>
             </div>
 
             {% if user.is_authenticated %}
+                <div class="col profile_link_class">
+                    <a class="some_link profile_link_tag" href="#">Profile</a>
+                </div>
+
+
                 <div class="col logout_link_class">
-                <a class="logout_link_tag" href="{% url 'sampleapp:logout' %}">Logout</a>
-            </div>
+                    <a class="some_link logout_link_tag" href="{% url 'sampleapp:logout' %}">Logout</a>
+                </div>
             {% endif %}
         </div>
         {% block content %}{% endblock content %}
     </div>
 
+    {% include "snippets/js.html" %}
     {% if user.is_authenticated %}
         {% load static %}
         <script>
