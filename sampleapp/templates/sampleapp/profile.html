@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+    {{ user.username }} || Ting
+{% endblock %}
+
+{% block content %}
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+{% endblock %}

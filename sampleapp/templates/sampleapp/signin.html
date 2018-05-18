@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+    Sign in || Ting
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'sampleapp:signin' %}">
+        {% csrf_token %}
+
+        {% if error %}
+            <div class="row">
+                <div class="col error">
+                    {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        <table>
+            <tr>
+                <td><label for="username">Username</label></td>
+                <td>
+                    <input id="username" type="text" name="username">
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="pwd">Password</label></td>
+                <td>
+                    <input id="pwd" type="password" name="pwd">
+                </td>
+            </tr>
+        </table>
+        <br>
+
+        <input type="submit" value="Sign in">
+    </form>
+{% endblock %}

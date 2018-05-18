@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+    Welcome || Ting
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <form method="get" action="{% url 'sampleapp:signup' %}">
+                <input type="submit" value="Sign up">
+            </form>
+        </div>
+
+        <div class="col">
+            <form method="get" action="{% url 'sampleapp:signin' %}">
+                <input type="submit" value="Sign in">
+            </form>
+        </div>
+    </div>
+{% endblock %}
