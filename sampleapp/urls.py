@@ -20,4 +20,7 @@ urlpatterns = [
         views.activate, name='activate'),
     url(r'^profile/$', views.profile_view, name='profile'),
     url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^about/$', views.about_view, name='about'),
+    url(r'^home/$', views.home_view, name='home'),
+    url(r'^change/$', views.change_pwd, name='change_pwd'),
 ]

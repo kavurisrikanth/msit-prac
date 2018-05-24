@@ -1,10 +1,10 @@
-<h3 class="page_heading">Sign up!</h3>
+<h3 class="page_heading">Change Password</h3>
 <hr>
 
-<form method="post" action="{% url "sampleapp:signup" %}">
+<form method="post" action="{% url "sampleapp:change_pwd" %}">
     {% csrf_token %}
     <table class="form_table">
-        {% for field in signup_form %}
+        {% for field in change_pwd_form %}
             <tr>
                 <td>{{ field.label_tag }}</td>
                 <td>{{ field }}</td>
@@ -17,6 +17,8 @@
         {% endfor %}
     </table>
 
+{#    {{ change_pwd_form }}#}
+
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-            type="submit">Sign up</button>
+            type="submit">Change Password</button>
 </form>

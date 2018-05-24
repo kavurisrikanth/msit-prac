@@ -1,45 +1,35 @@
-{% extends "base.html" %}
+<h3 class="page_heading">Sign in</h3>
+    <hr>
 
-{% block head_title %}
-    Sign in || Ting
-{% endblock %}
+    <form method="post" action="{% url 'sampleapp:signin' %}">
+        {% csrf_token %}
 
-{% block content %}
-    <div class="row">
-        <div class="col box_div">
-            <h3>Sign in</h3>
-            <hr>
+        {% if signin_error %}
+            <div class="row">
+                <div class="col error">
+                    {{ signin_error }}
+                </div>
+            </div>
+        {% endif %}
 
-            <form method="post" action="{% url 'sampleapp:signin' %}">
-                {% csrf_token %}
+        <table class="form_table">
+            <tr>
+                <td><label for="username">Username</label></td>
+                <td>
+                    <input id="username" type="text" name="username">
+                </td>
+            </tr>
 
-                {% if error %}
-                    <div class="row">
-                        <div class="col error">
-                            {{ error }}
-                        </div>
-                    </div>
-                {% endif %}
+            <tr>
+                <td><label for="pwd">Password</label></td>
+                <td>
+                    <input id="pwd" type="password" name="pwd">
+                </td>
+            </tr>
+        </table>
+        <br>
 
-                <table>
-                    <tr>
-                        <td><label for="username">Username</label></td>
-                        <td>
-                            <input id="username" type="text" name="username">
-                        </td>
-                    </tr>
+{#                    <input type="hidden" name="next" value="{{ next }}">#}
 
-                    <tr>
-                        <td><label for="pwd">Password</label></td>
-                        <td>
-                            <input id="pwd" type="password" name="pwd">
-                        </td>
-                    </tr>
-                </table>
-                <br>
-
-                <input type="submit" value="Sign in">
-            </form>
-        </div>
-    </div>
-{% endblock %}
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Sign in</button>
+    </form>

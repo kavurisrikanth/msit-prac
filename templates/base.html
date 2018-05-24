@@ -6,27 +6,45 @@
     {% include "snippets/css.html" %}
 </head>
 <body>
-    <div class="container">
-        <div class="row main_bar">
-{#            <div class="col home_link">#}
-{#                <a class="some_link" href="{% url 'sampleapp:index' %}">Home</a>#}
-{#            </div>#}
-
-            <div class="col bar_title" onclick="window.location='{% url 'sampleapp:index' %}'">
-                <h2>Ting!</h2>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header main_bar">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title bar_title"
+                      onclick="window.location='{% url 'sampleapp:index' %}'">
+                    Ting!
+                </span>
             </div>
 
-            {% if user.is_authenticated %}
-                <div class="col profile_link_class">
-                    <a class="some_link profile_link_tag" href="#">Profile</a>
+            {% block tab_bar %}{% endblock %}
+        </header>
+
+        <div class = "mdl-layout__drawer">
+            <span class="mdl-layout-title bar_title"
+                  onclick="window.location='{% url 'sampleapp:index' %}'">
+                Ting!
+            </span>
+
+            <nav class = "mdl-navigation">
+                <div class="about_link_class mdl-navigation__link">
+                    <a class="about_link_tag some_link" href="{% url 'sampleapp:about' %}">About</a>
                 </div>
 
+                {% if user.is_authenticated %}
+                        <div class="profile_link_class mdl-navigation__link">
+                            <a class="profile_link_tag some_link" href="#">Profile</a>
+                        </div>
 
-                <div class="col logout_link_class">
-                    <a class="some_link logout_link_tag" href="{% url 'sampleapp:logout' %}">Logout</a>
-                </div>
-            {% endif %}
+
+                        <div class="logout_link_class mdl-navigation__link">
+                            <a class="logout_link_tag some_link" href="{% url 'sampleapp:logout' %}">Logout</a>
+                        </div>
+                {% endif %}
+
+                {% block navigation %}{% endblock %}
+
+            </nav>
         </div>
+
         {% block content %}{% endblock content %}
     </div>
 

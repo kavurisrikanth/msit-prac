@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sampleapp.apps.SampleappConfig',
+    # 'oauth2_provider',
+    # 'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -132,3 +135,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# OAuth details
+# CORS_ORIGIN_ALLOW_ALL = True
+#
+# SOCIAL_AUTH_GITHUB_KEY = '5c0fd8be627ebb052f31'
+# SOCIAL_AUTH_GITHUB_SECRET = '7a01cc5e964be5ace882063c7daea75d49f8b915'

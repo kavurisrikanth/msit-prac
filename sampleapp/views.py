@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
@@ -11,7 +13,6 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic.base import TemplateView
 
 from sampleapp.tokens import account_activation_token
 from website.settings import EMAIL_HOST_USER
@@ -19,16 +20,27 @@ from .forms import SignUpForm
 
 # Create your views here.
 
-# class IndexView(View):
-#     def get(self, request):
-#         return render(request, 'sampleapp/index.html')
-
-
-def index_view(request):
+def index_view(request, **kwargs):
     template = 'sampleapp/index.html'
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('sampleapp:profile'))
-    return render(request, template)
+        return HttpResponseRedirect(reverse('sampleapp:home'))
+
+    context = {}
+    if kwargs:
+        if 'signup_form' in kwargs:
+            signUpForm = kwargs.get('signup_form')
+        else:
+            signUpForm = SignUpForm()
+
+        if 'signin_error' in kwargs:
+            context['signin_error'] = kwargs.get('signin_error')
+
+        if 'signin_username' in kwargs:
+            context['signin_username'] = kwargs.get('signin_username')
+    else:
+        signUpForm = SignUpForm()
+    context['signup_form'] = signUpForm
+    return render(request, template, context)
 
 
 def signup_view(request):
@@ -58,14 +70,15 @@ def signup_view(request):
 
             print send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email,], fail_silently=False)
             return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
-    else:
-        form = SignUpForm()
-    return render(request, 'sampleapp/signup.html', {'form': form})
+        else:
+            return HttpResponseRedirect(reverse('sampleapp:index', kwargs={'signup_form': form}))
+
+    return HttpResponseRedirect(reverse('sampleapp:index'))
 
 
 def signin_view(request):
-    print 'inside POST'
     if request.method == 'POST':
+        # Correct login method.
         uname = request.POST.get('username')
         pwd = request.POST.get('pwd')
 
@@ -73,21 +86,57 @@ def signin_view(request):
         login(request, user)
 
         if user is not None:
-            return HttpResponseRedirect(reverse('sampleapp:profile'))
+            # The redirect must be to the home page. Change this later.
+            return HttpResponseRedirect(reverse('sampleapp:home'))
         else:
-            context = {'error': 'Incorrect username or password.'}
-            return render(request, 'sampleapp/signin.html', context)
+            # Mark the error and send it back. We're clearing out the password and keeping the username.
+            return HttpResponseRedirect(reverse('sampleapp:index',
+                                                kwargs={'signin_error': 'Incorrect username or password.',
+                                                        'signin_username': uname}))
     else:
+        # Incorrect method of login. Might need to change this later.
         if not request.user.is_authenticated:
-            return render(request, 'sampleapp/signin.html')
+            return HttpResponseRedirect(reverse('sampleapp:index'))
 
-        return HttpResponseRedirect(reverse('sampleapp:profile'))
+        return HttpResponseRedirect(reverse('sampleapp:home'))
 
 
+def about_view(request):
+    return render(request, 'sampleapp/about.html')
+
+
+@login_required(login_url='/music/signin')
+def home_view(request):
+    form = PasswordChangeForm(user=request.user)
+    context = {'change_pwd_form': form}
+    return render(request, 'sampleapp/home.html', context)
+
+
+@login_required(login_url='/music/signin')
 def profile_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('sampleapp:signin'))
     return render(request, 'sampleapp/profile.html', {'user': request.user})
+
+
+@login_required(login_url='/music/signin')
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('sampleapp:index'))
+
+
+@login_required(login_url='/music/signin')
+def change_pwd(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return HttpResponseRedirect(reverse('sampleapp:index'))
+        else:
+            return render(request, "sampleapp/change_pwd.html", { 'change_pwd_form': form })
+    else:
+        return HttpResponseRedirect(reverse('sampleapp:home'))
 
 
 def account_activation_sent(request):
@@ -110,10 +159,6 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'sampleapp/account_activation_invalid.html')
 
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('sampleapp:index'))
 
 '''
 Not used.

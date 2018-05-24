@@ -13,7 +13,7 @@ button {
 }
 
 .some_link {
-    color: whitesmoke;
+    font-size: large;
 }
 
 .sign_in_div {
@@ -37,6 +37,22 @@ button {
 
 .bar_title {
     cursor: pointer;
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: xx-large;
+}
+
+.bar_title_text {
+    display: inline-block;
+}
+
+.form_table {
+    border-spacing: 12px;
+}
+
+.page_heading {
+    text-align: end;
+    font-family: Montserrat, sans-serif;
 }
 
 /*.details_table {*/
