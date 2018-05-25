@@ -30,11 +30,6 @@
                 </div>
 
                 {% if user.is_authenticated %}
-                        <div class="profile_link_class mdl-navigation__link">
-                            <a class="profile_link_tag some_link" href="#">Profile</a>
-                        </div>
-
-
                         <div class="logout_link_class mdl-navigation__link">
                             <a class="logout_link_tag some_link" href="{% url 'sampleapp:logout' %}">Logout</a>
                         </div>
@@ -49,13 +44,15 @@
     </div>
 
     {% include "snippets/js.html" %}
+    {% block custom_js %}{% endblock %}
     {% if user.is_authenticated %}
         {% load static %}
         <script>
             let firstname = "{{ user.first_name }}",
                 lastname = "{{ user.last_name }}";
         </script>
-        <script src="{% static "appbar.js" %}"></script>
     {% endif %}
+    <script src="{% static "appbar.js" %}"></script>
+
 </body>
 </html>

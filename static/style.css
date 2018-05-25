@@ -55,6 +55,12 @@ button {
     font-family: Montserrat, sans-serif;
 }
 
+.link_image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
 /*.details_table {*/
     /*border-spacing: 50px;*/
 /*}*/

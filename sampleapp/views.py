@@ -20,23 +20,32 @@ from .forms import SignUpForm
 
 # Create your views here.
 
-def index_view(request, **kwargs):
-    template = 'sampleapp/index.html'
+def index_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('sampleapp:home'))
 
+    template = 'sampleapp/index.html'
+
     context = {}
+    kwargs = request.session
     if kwargs:
         if 'signup_form' in kwargs:
             signUpForm = kwargs.get('signup_form')
+            kwargs.pop('signup_form', None)
         else:
             signUpForm = SignUpForm()
 
         if 'signin_error' in kwargs:
             context['signin_error'] = kwargs.get('signin_error')
+            kwargs.pop('signin_error', None)
 
         if 'signin_username' in kwargs:
             context['signin_username'] = kwargs.get('signin_username')
+            kwargs.pop('signin_username', None)
+
+        if 'redirect_from' in kwargs:
+            context['redirect_from'] = kwargs.get('redirect_from')
+            kwargs.pop('redirect_from', None)
     else:
         signUpForm = SignUpForm()
     context['signup_form'] = signUpForm
@@ -71,28 +80,31 @@ def signup_view(request):
             print send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email,], fail_silently=False)
             return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
         else:
-            return HttpResponseRedirect(reverse('sampleapp:index', kwargs={'signup_form': form}))
+            request.session['signup_form'] = form
+            request.session['redirect_from'] = 'signup'
+            return HttpResponseRedirect(reverse('sampleapp:index'))
 
     return HttpResponseRedirect(reverse('sampleapp:index'))
 
 
-def signin_view(request):
+def login_view(request):
     if request.method == 'POST':
         # Correct login method.
         uname = request.POST.get('username')
         pwd = request.POST.get('pwd')
 
         user = authenticate(username=uname, password=pwd)
-        login(request, user)
 
         if user is not None:
             # The redirect must be to the home page. Change this later.
+            login(request, user)
             return HttpResponseRedirect(reverse('sampleapp:home'))
         else:
             # Mark the error and send it back. We're clearing out the password and keeping the username.
-            return HttpResponseRedirect(reverse('sampleapp:index',
-                                                kwargs={'signin_error': 'Incorrect username or password.',
-                                                        'signin_username': uname}))
+            request.session['signin_error'] = 'Incorrect username or password.'
+            request.session['signin_username'] = uname
+            request.session['redirect_from'] = 'login'
+            return HttpResponseRedirect(reverse('sampleapp:index'))
     else:
         # Incorrect method of login. Might need to change this later.
         if not request.user.is_authenticated:
@@ -105,27 +117,27 @@ def about_view(request):
     return render(request, 'sampleapp/about.html')
 
 
-@login_required(login_url='/music/signin')
+@login_required(login_url='/music/login/')
 def home_view(request):
     form = PasswordChangeForm(user=request.user)
     context = {'change_pwd_form': form}
     return render(request, 'sampleapp/home.html', context)
 
 
-@login_required(login_url='/music/signin')
+@login_required(login_url='/music/login')
 def profile_view(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('sampleapp:signin'))
+        return HttpResponseRedirect(reverse('sampleapp:login'))
     return render(request, 'sampleapp/profile.html', {'user': request.user})
 
 
-@login_required(login_url='/music/signin')
+@login_required(login_url='/music/login')
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('sampleapp:index'))
 
 
-@login_required(login_url='/music/signin')
+@login_required(login_url='/music/login')
 def change_pwd(request):
     if request.method == 'POST':
         form = PasswordChangeForm(user=request.user, data=request.POST)

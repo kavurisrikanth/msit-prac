@@ -7,9 +7,9 @@
 {% block tab_bar %}
     <!-- Tabs -->
     <div class = "mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#signup-tab" class="mdl-layout__tab is-active">Sign up</a>
-        <a href="#signin-tab" class="mdl-layout__tab">Sign in</a>
-        <a href="#tryit-tab" class="mdl-layout__tab">Give it a try!</a>
+        <a id="signup-tab-link" href="#signup-tab" class="mdl-layout__tab is-active">Sign up</a>
+        <a id="signin-tab-link" href="#signin-tab" class="mdl-layout__tab">Sign in</a>
+        <a id="tryit-tab-link" href="#tryit-tab" class="mdl-layout__tab">Give it a try!</a>
     </div>
 {% endblock %}
 
@@ -43,3 +43,11 @@
 
     </main>
 {% endblock %}
+
+{% if redirect_from %}
+    {% block custom_js %}
+        <script>
+            let redirectFrom = "{{ redirect_from }}";
+        </script>
+    {% endblock %}
+{% endif %}

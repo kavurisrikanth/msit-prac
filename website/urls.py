@@ -20,6 +20,11 @@ from sampleapp import views as sampleapp_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^music/', include('sampleapp.urls')),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     # url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     # url(r'^accounts/login/$', sampleapp_views.signin_view),
 ]
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/music/home'

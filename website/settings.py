@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sampleapp.apps.SampleappConfig',
+    'social_django',
     # 'oauth2_provider',
     # 'corsheaders'
 ]
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     # 'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -66,6 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -73,6 +77,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'website.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Email settings
 from .email import *
@@ -139,5 +150,10 @@ STATICFILES_DIRS = [
 # OAuth details
 # CORS_ORIGIN_ALLOW_ALL = True
 #
-# SOCIAL_AUTH_GITHUB_KEY = '5c0fd8be627ebb052f31'
-# SOCIAL_AUTH_GITHUB_SECRET = '7a01cc5e964be5ace882063c7daea75d49f8b915'
+SOCIAL_AUTH_GITHUB_KEY = '5c0fd8be627ebb052f31'
+SOCIAL_AUTH_GITHUB_SECRET = '7a01cc5e964be5ace882063c7daea75d49f8b915'
+
+LOGIN_REDIRECT_URL = '/music/home'
+
+SOCIAL_AUTH_TWITTER_KEY = 'vOkCg9Mbj4ShlZKuoDoAAvKER'
+SOCIAL_AUTH_GITHUB_SECRET = 'sQY6EiF4hYtPS1pvrj2hy73BownaqQN3yprHO6PJVbUqwIOu8U'
