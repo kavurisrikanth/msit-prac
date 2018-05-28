@@ -77,7 +77,7 @@ def signup_view(request):
             })
             # user.email_user(subject, message)
 
-            print send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email,], fail_silently=False)
+            print (send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email,], fail_silently=False))
             return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
         else:
             request.session['signup_form'] = form

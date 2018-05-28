@@ -61,6 +61,12 @@ button {
     border-radius: 50%;
 }
 
+.title_image {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
 /*.details_table {*/
     /*border-spacing: 50px;*/
 /*}*/

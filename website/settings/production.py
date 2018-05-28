@@ -13,17 +13,18 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-!)xlwp6ihme_f!twhg74l7pi^o@oc2sx-2ni^c-x&=1^)lhci'
+SECRET_KEY = '-!)xlwp6ihme_f!twhg74amy7pi^o@oc2sx-2ni^c-x&=1^)lhci'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -39,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sampleapp.apps.SampleappConfig',
     'social_django',
-    # 'oauth2_provider',
-    # 'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -147,6 +146,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# IMAGES_URL = os.path.join(STATICFILES_DIRS[0], 'images')
+
 # OAuth details
 # CORS_ORIGIN_ALLOW_ALL = True
 #
@@ -157,3 +158,13 @@ LOGIN_REDIRECT_URL = '/music/home'
 
 SOCIAL_AUTH_TWITTER_KEY = 'vOkCg9Mbj4ShlZKuoDoAAvKER'
 SOCIAL_AUTH_TWITTER_SECRET = 'sQY6EiF4hYtPS1pvrj2hy73BownaqQN3yprHO6PJVbUqwIOu8U'
+
+CORS_REPLACE_HTTPS_REFERER      = True
+HOST_SCHEME                     = "https://"
+SECURE_PROXY_SSL_HEADER         = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT             = True
+SESSION_COOKIE_SECURE           = True
+CSRF_COOKIE_SECURE              = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
+SECURE_HSTS_SECONDS             = 1000000
+SECURE_FRAME_DENY               = True
