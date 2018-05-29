@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.messages import get_messages
 from django.contrib.sites.shortcuts import get_current_site
+from django.core import serializers
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -21,34 +26,22 @@ from .forms import SignUpForm
 # Create your views here.
 
 def index_view(request):
+    template = 'sampleapp/index.html'
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('sampleapp:home'))
 
-    template = 'sampleapp/index.html'
-
     context = {}
+    signUpForm = SignUpForm()
+
     kwargs = request.session
     if kwargs:
-        if 'signup_form' in kwargs:
-            signUpForm = kwargs.get('signup_form')
-            kwargs.pop('signup_form', None)
-        else:
-            signUpForm = SignUpForm()
+        context['signup_errors'] = kwargs.pop('signup_errors', None)
+        context['signin_error'] = kwargs.pop('signin_error', None)
+        context['signin_username'] = kwargs.pop('signin_username', None)
+        context['redirect_from'] = kwargs.pop('redirect_from', None)
 
-        if 'signin_error' in kwargs:
-            context['signin_error'] = kwargs.get('signin_error')
-            kwargs.pop('signin_error', None)
-
-        if 'signin_username' in kwargs:
-            context['signin_username'] = kwargs.get('signin_username')
-            kwargs.pop('signin_username', None)
-
-        if 'redirect_from' in kwargs:
-            context['redirect_from'] = kwargs.get('redirect_from')
-            kwargs.pop('redirect_from', None)
-    else:
-        signUpForm = SignUpForm()
     context['signup_form'] = signUpForm
+
     return render(request, template, context)
 
 
@@ -77,11 +70,16 @@ def signup_view(request):
             })
             # user.email_user(subject, message)
 
-            print (send_mail(subject=subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email,], fail_silently=False))
+            send_mail(subject=subject,
+                      message=message,
+                      from_email=EMAIL_HOST_USER,
+                      recipient_list=[user.email,],
+                      fail_silently=False)
             return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
         else:
-            request.session['signup_form'] = form
-            request.session['redirect_from'] = 'signup'
+            # messages.error(request, form)
+            for key in form.errors:
+                messages.error(request, form.errors.get(key))
             return HttpResponseRedirect(reverse('sampleapp:index'))
 
     return HttpResponseRedirect(reverse('sampleapp:index'))

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+import dj_database_url
+from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -21,12 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-!)xlwp6ihme_f!twhg74amy7pi^o@oc2sx-2ni^c-x&=1^)lhci'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['the-ting-app.herokuapp.com']
 
 
 # Application definition
@@ -98,10 +101,13 @@ EMAIL_PORT = EMAIL_PORT
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
@@ -146,11 +152,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# IMAGES_URL = os.path.join(STATICFILES_DIRS[0], 'images')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # OAuth details
-# CORS_ORIGIN_ALLOW_ALL = True
-#
 SOCIAL_AUTH_GITHUB_KEY = '5c0fd8be627ebb052f31'
 SOCIAL_AUTH_GITHUB_SECRET = '7a01cc5e964be5ace882063c7daea75d49f8b915'
 
@@ -168,3 +172,8 @@ CSRF_COOKIE_SECURE              = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
 SECURE_HSTS_SECONDS             = 1000000
 SECURE_FRAME_DENY               = True
+
+SECURE_CONTENT_TYPE_NOSNIFF      = True
+SECURE_BROWSER_XSS_FILTER       = True
+X_FRAME_OPTIONS                 = 'DENY'
+SECURE_HSTS_PRELOAD             = True

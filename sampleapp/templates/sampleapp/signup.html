@@ -3,17 +3,29 @@
 
 <form method="post" action="{% url "sampleapp:signup" %}">
     {% csrf_token %}
+
+    {% if messages %}
+        <div class="error">
+            <p>The following error(s) occurred:</p>
+            <ul>
+                {% for foo in messages %}
+                    {{ foo }}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <table class="form_table">
         {% for field in signup_form %}
             <tr>
                 <td>{{ field.label_tag }}</td>
                 <td>{{ field }}</td>
                 <td>
-                    {% for error in field.errors %}
-                        <p style="color: red">{{ error }}</p>
+                    {% for err in field.errors %}
+                        <p>{{ err }}</p>
+                    {% endfor %}
                 </td>
             </tr>
-            {% endfor %}
         {% endfor %}
     </table>
 
