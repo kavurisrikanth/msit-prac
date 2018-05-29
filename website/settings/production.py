@@ -14,6 +14,8 @@ import dj_database_url
 # from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
+from decouple import config
+
 DEBUG = False
 
 ALLOWED_HOSTS = ['the-ting-app.herokuapp.com']
