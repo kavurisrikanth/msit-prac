@@ -13,7 +13,7 @@ ENV/
 
 # Django stuff:
 *.log
-local_settings.py
+local.py
 
 # pyenv
 .python-version
