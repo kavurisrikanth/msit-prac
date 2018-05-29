@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import dj_database_url
+import os
+
+from decouple import config
 # from .base import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
-from decouple import config
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 DEBUG = False
 
@@ -26,6 +28,10 @@ DATABASES = {
     )
 }
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 STATIC_ROOT = STATICFILES_DIRS[0]
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
