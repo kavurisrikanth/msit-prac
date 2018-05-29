@@ -1,19 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
-
-# class SignUpForm(UserCreationForm):
-#     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-#     last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-#     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-#
-#     class Meta(UserCreationForm.Meta):
-#         model = User
-#         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
 from django.core.exceptions import ValidationError
-from drf_braces.serializers.form_serializer import FormSerializer
-
 
 class SignUpForm(forms.Form):
     username = forms.CharField(label='Choose a username', min_length=3, max_length=50)
@@ -55,8 +42,3 @@ class SignUpForm(forms.Form):
             self.cleaned_data.get('password1')
         )
         return user
-
-
-class SignUpSerializer(FormSerializer):
-    class Meta:
-        form = SignUpForm

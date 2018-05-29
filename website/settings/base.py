@@ -12,11 +12,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-import dj_database_url
-from decouple import config
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from decouple import config
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -27,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['the-ting-app.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -54,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -101,13 +99,10 @@ EMAIL_PORT = EMAIL_PORT
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -152,28 +147,15 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# IMAGES_URL = os.path.join(STATICFILES_DIRS[0], 'images')
 
 # OAuth details
-SOCIAL_AUTH_GITHUB_KEY = '5c0fd8be627ebb052f31'
-SOCIAL_AUTH_GITHUB_SECRET = '7a01cc5e964be5ace882063c7daea75d49f8b915'
-
+# CORS_ORIGIN_ALLOW_ALL = True
+#
 LOGIN_REDIRECT_URL = '/music/home'
 
-SOCIAL_AUTH_TWITTER_KEY = 'vOkCg9Mbj4ShlZKuoDoAAvKER'
-SOCIAL_AUTH_TWITTER_SECRET = 'sQY6EiF4hYtPS1pvrj2hy73BownaqQN3yprHO6PJVbUqwIOu8U'
+SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
 
-CORS_REPLACE_HTTPS_REFERER      = True
-HOST_SCHEME                     = "https://"
-SECURE_PROXY_SSL_HEADER         = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT             = True
-SESSION_COOKIE_SECURE           = True
-CSRF_COOKIE_SECURE              = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
-SECURE_HSTS_SECONDS             = 1000000
-SECURE_FRAME_DENY               = True
-
-SECURE_CONTENT_TYPE_NOSNIFF      = True
-SECURE_BROWSER_XSS_FILTER       = True
-X_FRAME_OPTIONS                 = 'DENY'
-SECURE_HSTS_PRELOAD             = True
+SOCIAL_AUTH_TWITTER_KEY = config('SOCIAL_AUTH_TWITTER_KEY')
+SOCIAL_AUTH_TWITTER_SECRET = config('SOCIAL_AUTH_TWITTER_SECRET')
