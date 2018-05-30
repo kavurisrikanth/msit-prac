@@ -5,11 +5,15 @@ __pycache__/
 *$py.class
 
 # Environments
-.env
-.venv
+**/.env
+**/.venv
 env/
 venv/
 ENV/
+
+#IntelliJ stuff
+**/*.xml
+.idea
 
 # Django stuff:
 *.log
