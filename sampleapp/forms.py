@@ -3,12 +3,24 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(label='Choose a username', min_length=3, max_length=50)
-    first_name = forms.CharField(label='Enter first name', max_length=50, required=False)
-    last_name = forms.CharField(label='Enter last name', max_length=50, required=False)
-    email = forms.EmailField(label='Enter email')
-    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
+    username = forms.CharField(label='Choose a username',
+                               min_length=3,
+                               max_length=50,
+                               widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    first_name = forms.CharField(label='Enter first name',
+                                 max_length=50,
+                                 required=False,
+                                 widget=forms.TextInput(attrs={'placeholder': 'First Name (Optional)'}))
+    last_name = forms.CharField(label='Enter last name',
+                                max_length=50,
+                                required=False,
+                                widget=forms.TextInput(attrs={'placeholder': 'Last Name (Optional)'}))
+    email = forms.EmailField(label='Enter email',
+                             widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+    password1 = forms.CharField(label='Enter password',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    password2 = forms.CharField(label='Confirm password',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
 
     def clean_username(self):
         uname = self.cleaned_data.get('username').lower()
