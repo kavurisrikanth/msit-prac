@@ -1,0 +1,22 @@
+<h5 class="piece_heading">Online users</h5>
+<div class="online_users_div side_by_side">
+    <div id="global_chat_card" class="online_user_card">
+        <a href="#">
+            <img class="link_image profile_pic"
+                 src="../../static/images/blank_profile_picture_small.png"
+                 alt="Global chat">
+            <p class="online_user_text">Global Chat</p>
+        </a>
+    </div>
+
+    {% for user in online_users %}
+        <div class="online_user_card side_by_side">
+            <a href="#">
+                <img class="link_image profile_pic"
+                     src="../../static/images/blank_profile_picture_small.png"
+                     alt="{{ user.username }}">
+                <p class="online_user_text">{{ user.first_name }} {{ user.last_name }}</p>
+            </a>
+        </div>
+    {% endfor %}
+</div>

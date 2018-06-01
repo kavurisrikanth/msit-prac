@@ -55,6 +55,11 @@ button {
     font-family: Montserrat, sans-serif;
 }
 
+.piece_heading {
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+}
+
 .link_image {
     height: 40px;
     width: 40px;
@@ -74,6 +79,23 @@ button {
     padding: 1.5%;
 }
 
-/*.details_table {*/
-    /*border-spacing: 50px;*/
-/*}*/
+.side_by_side {
+    display: flex;
+}
+
+.custom_col {
+    flex: 50%;
+    padding: 1%;
+}
+
+.left {
+    border-right: 1px solid gray;
+}
+
+.profile_pic {
+    padding-right: 0.5%;
+}
+
+.online_user_card {
+    padding: 1%;
+}

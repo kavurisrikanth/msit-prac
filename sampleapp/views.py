@@ -9,6 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.messages import get_messages
+from django.contrib.sessions.models import Session
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import serializers
 from django.core.mail import send_mail
@@ -16,6 +17,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
@@ -118,7 +120,11 @@ def about_view(request):
 @login_required(login_url='/music/login/')
 def home_view(request):
     form = PasswordChangeForm(user=request.user)
-    context = {'change_pwd_form': form}
+    active_users = get_current_users(request)
+    # print (active_users)
+
+    context = {'change_pwd_form': form,
+               'online_users': active_users}
     return render(request, 'sampleapp/home.html', context)
 
 
@@ -169,6 +175,19 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'sampleapp/account_activation_invalid.html')
 
+
+def get_current_users(request):
+    active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    user_id_list = []
+    for session in active_sessions:
+        data = session.get_decoded()
+        some_user = data.get('_auth_user_id', None)
+
+        if some_user and int(some_user) != int(request.user.id):
+            user_id_list.append(some_user)
+
+    # Query all logged in users based on id list
+    return User.objects.filter(id__in=user_id_list)
 
 '''
 Not used.

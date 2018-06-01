@@ -21,7 +21,18 @@
         <section class = "mdl-layout__tab-panel is-active" id = "home-tab">
             <div class = "page-content box_div">
                 <!-- Home -->
-                Home Page placeholder
+                {% load static %}
+                {% include "sampleapp/online_users.html" %}
+                <hr>
+
+                <div class="custom_row side_by_side">
+                    <div class="custom_col left">
+                        Conversations placeholder.
+                    </div>
+                    <div class="custom_col right">
+                        SoundCloud placeholder.
+                    </div>
+                </div>
             </div>
         </section>
 
