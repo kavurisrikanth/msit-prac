@@ -8,10 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.messages import get_messages
 from django.contrib.sessions.models import Session
 from django.contrib.sites.shortcuts import get_current_site
-from django.core import serializers
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -21,6 +19,8 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+# from sampleapp.models import Room
+from sampleapp.models import Room
 from sampleapp.tokens import account_activation_token
 from website.settings import EMAIL_HOST_USER
 from .forms import SignUpForm
@@ -188,6 +188,12 @@ def get_current_users(request):
 
     # Query all logged in users based on id list
     return User.objects.filter(id__in=user_id_list)
+
+
+def chat_room(request, label):
+    room, created = Room.objects.get_or_create(label=label)
+    msgs = reversed(room.messages.order_by('-timestamp')[:50])
+
 
 '''
 Not used.

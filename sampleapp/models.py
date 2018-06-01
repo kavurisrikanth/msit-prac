@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.deletion import CASCADE
+from django.utils import timezone
 from django.utils.text import slugify
 
 # Create your models here.
@@ -17,11 +19,25 @@ class Profile(models.Model):
     email_confirmed = models.BooleanField(default=False)
     # slug = models.SlugField(default=False, null=True)
 
+
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
+
+class Room(models.Model):
+    name = models.TextField()
+    label = models.SlugField(unique=True)
+
+
+class Message(models.Model):
+    room = models.ForeignKey(Room, related_name='messages', on_delete=CASCADE)
+    handle = models.TextField()
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+
 
 # def prof_pre_save(sender, instance, *args, **kwargs):
 #     if not instance.slug:
