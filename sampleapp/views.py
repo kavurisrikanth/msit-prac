@@ -58,26 +58,30 @@ def signup_view(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
+            # user.is_active = False
+            user.is_active = True
             user.save()
-            current_site = get_current_site(request)
+            login(request, user)
+            return HttpResponseRedirect(reverse('sampleapp:home'))
 
-            subject = 'Welcome to Ting! Thanks for signing up!'
-
-            message = render_to_string('sampleapp/activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            # user.email_user(subject, message)
-
-            send_mail(subject=subject,
-                      message=message,
-                      from_email=EMAIL_HOST_USER,
-                      recipient_list=[user.email,],
-                      fail_silently=False)
-            return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
+            # current_site = get_current_site(request)
+            #
+            # subject = 'Welcome to Ting! Thanks for signing up!'
+            #
+            # message = render_to_string('sampleapp/activation_email.html', {
+            #     'user': user,
+            #     'domain': current_site.domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': account_activation_token.make_token(user),
+            # })
+            # # user.email_user(subject, message)
+            #
+            # send_mail(subject=subject,
+            #           message=message,
+            #           from_email=EMAIL_HOST_USER,
+            #           recipient_list=[user.email,],
+            #           fail_silently=False)
+            # return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
         else:
             # messages.error(request, form)
             for key in form.errors:
@@ -190,13 +194,70 @@ def get_current_users(request):
     return User.objects.filter(id__in=user_id_list)
 
 
-def chat_room(request, label):
-    room, created = Room.objects.get_or_create(label=label)
+def chat_with(request, u):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('sampleapp:index'))
+
+    # Can't chat with yourself
+    if u == request.user.id:
+        return render(request, 'sampleapp/error.html')
+
+    if u == 'all':
+        # Global chat
+        room, created = Room.objects.get_or_create(label='global')
+        return render_room(room, request)
+    else:
+        try:
+            # Checking if the other user exists
+            User.objects.get(id=u)
+
+            # Get the room and render it
+            room = get_room(request.user.id, u)
+            render_room(room, request)
+        except User.DoesNotExist:
+            return render(request, 'sampleapp/error.html')
+
+
+def render_room(room, request):
+    """
+    Renders a chat room.
+    :param room: Chat room object
+    :param request: HTTP request object
+    :return: Rendering of chat room.
+    """
     msgs = reversed(room.messages.order_by('-timestamp')[:50])
+    return render(request, 'sampleapp/room.html', {
+        'room': room,
+        'msgs': msgs,
+        'username': request.user.username
+    })
+
+
+def get_room(this_id, other_id):
+    """
+    Get chat room for one-to-one chat. The Room label will either be <this_user>_<other_user> or
+    <other_user>_<this_user>.
+    :param this_id: ID of currently logged in user.
+    :param other_id: ID of other user.
+    :return: Appropriate room.
+    """
+    one = this_id + '_' + other_id
+    two = other_id + '_' + this_id
+
+    try:
+        return Room.objects.get(label=one)
+    except Room.DoesNotExist:
+        try:
+            return Room.objects.get(label=two)
+        except Room.DoesNotExist:
+            new_room = Room.objects.create(label=one)
+            return new_room
 
 
 '''
-Not used.
+Not used. The relics of history (and editing and common sense).
+
 class SignUpView(View):
     def get(self, request):
         return render(request, 'sampleapp/signup.html')
@@ -247,4 +308,14 @@ class IndexView(TemplateView):
         if self.request.user:
             context['user'] = self.request.user
         return context
+        
+        
+def chat_room(request, label):
+    room, created = Room.objects.get_or_create(label=label)
+    msgs = reversed(room.messages.order_by('-timestamp')[:50])
+    return render(request, 'sampleapp/room.html', {
+        'room': room,
+        'msgs': msgs,
+        'username': request.user.username
+    })
 '''

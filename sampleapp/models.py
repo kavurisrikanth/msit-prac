@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.deletion import CASCADE
+from django.db.models.deletion import CASCADE, SET_NULL
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -27,14 +27,16 @@ def update_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 
+# Database model for Chat Room
 class Room(models.Model):
     name = models.TextField()
     label = models.SlugField(unique=True)
 
 
+# Database model for Chat Message
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name='messages', on_delete=CASCADE)
-    handle = models.TextField()
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=CASCADE, null=True)
     message = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
 

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sampleapp.apps.SampleappConfig',
     'social_django',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +103,19 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+ASGI_APPLICATION = 'website.routing.application'
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "asgi_redis.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         },
+#         "ROUTING": "website.routing.channel_routing",
+#     },
+# }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

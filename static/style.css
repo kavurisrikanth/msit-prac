@@ -99,3 +99,30 @@ button {
 .online_user_card {
     padding: 1%;
 }
+
+.chat_page_div, .chat_box_div {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: Raleway, sans-serif;
+}
+
+#chat-history {
+    overflow-y: scroll;
+}
+
+.chat_box_div {
+    border: 1px solid black;
+}
+
+.one_message {
+    padding: 0.75%;
+    /*display: inline-block;*/
+}
+
+.sent {
+    float: right;
+}
+
+.received {
+    float: left;
+}

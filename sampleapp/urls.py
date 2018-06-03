@@ -35,6 +35,11 @@ urlpatterns += [
     # url(r'^logout/$', auth_views.logout, name='logout'),
 ]
 
+# Chat operations
+urlpatterns += [
+    url(r'^chat/(?P<u>[a-zA-Z0-9_]+)/$', views.chat_with, name='chat'),
+]
+
 # LOGIN_URL = 'signin'
 # LOGOUT_URL = 'logout'
 # LOGIN_REDIRECT_URL = 'home'

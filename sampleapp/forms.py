@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+
 class SignUpForm(forms.Form):
     username = forms.CharField(label='Choose a username',
                                min_length=3,
@@ -9,11 +10,9 @@ class SignUpForm(forms.Form):
                                widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     first_name = forms.CharField(label='Enter first name',
                                  max_length=50,
-                                 required=False,
                                  widget=forms.TextInput(attrs={'placeholder': 'First Name (Optional)'}))
     last_name = forms.CharField(label='Enter last name',
                                 max_length=50,
-                                required=False,
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name (Optional)'}))
     email = forms.EmailField(label='Enter email',
                              widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
@@ -47,10 +46,10 @@ class SignUpForm(forms.Form):
 
     def save(self, commit=True):
         user = User.objects.create_user(
-            self.cleaned_data.get('username'),
-            self.cleaned_data.get('first_name'),
-            self.cleaned_data.get('last_name'),
-            self.cleaned_data.get('email'),
-            self.cleaned_data.get('password1')
+            username=self.cleaned_data.get('username'),
+            first_name=self.cleaned_data.get('first_name'),
+            last_name=self.cleaned_data.get('last_name'),
+            email=self.cleaned_data.get('email'),
+            password=self.cleaned_data.get('password1')
         )
         return user
