@@ -28,7 +28,7 @@ DATABASES = {
     )
 }
 
-STATIC_URL = '/static/'
+STATIC_URL = '/app/assets/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
