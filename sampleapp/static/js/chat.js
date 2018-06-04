@@ -1,5 +1,5 @@
 let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-let chatSocket = new ReconnectingWebSocket(
+let chatSocket = new WebSocket(
     ws_scheme + '://' + window.location.host +
     '/ws/chat/' + roomName + '/');
 

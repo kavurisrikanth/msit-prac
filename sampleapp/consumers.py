@@ -47,8 +47,8 @@ class ChatConsumer(WebsocketConsumer):
     def chat_message(self, event):
 
         message = event['message']
-        label = event['room_label']
-        sender_username = event['sender']
+        label = event['label']
+        sender_username = event['sender_username']
 
         try:
             room = Room.objects.get(label=label)
