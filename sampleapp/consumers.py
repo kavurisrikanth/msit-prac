@@ -55,14 +55,14 @@ class ChatConsumer(WebsocketConsumer):
             sender = User.objects.get(username=sender_username)
             new_msg = Message.objects.create(room=room, message=message, sender=sender)
 
-            self.send(text_data=json.dumps)({
+            self.send(text_data=json.dumps({
                 'message': message,
                 'sender': sender_username,
                 'first_name': sender.first_name,
                 'last_name': sender.last_name,
                 'timestamp': json.dumps(new_msg.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                                         indent=4, sort_keys=True, default=str)
-            })
+            }))
 
         except Room.DoesNotExist:
             log.debug('Room with label %s does not exist!' % label)
