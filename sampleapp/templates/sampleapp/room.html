@@ -1,5 +1,55 @@
 {% extends "base.html" %}
 
 {% block head_title %}
+{{ room.label }} || Ting
+{% endblock %}
 
+{% block content %}
+{#    <p class="quiet">#}
+{#        Anyone with this URL can join the room and chat:#}
+{#        <code>{{ request.scheme }}://{{ request.get_host }}/{{ room.label }}</code>#}
+{#    </p>#}
+
+    <div class="chat_page_div">
+        <div class="side_by_side">
+            <div class="custom_col">
+                Piano placeholder
+            </div>
+
+            <div class="custom_col chat_box_div">
+                <div id="chat-history">
+                    {% for msg in msgs %}
+                        <div class="one_message {% if msg.sender.username == username %}
+                        sent {% else %} received
+                        {% endif %}">
+                            <p class="sender_name">{{ msg.sender.first_name }} {{ msg.sender.last_name }} {{ msg.timestamp|date:"Y-m-d H:i:s" }}</p>
+                            <hr>
+                            <p class="msg_text">{{ msg.message }}</p>
+{#                            <hr>#}
+{#                            <p class="msg_time"></p>#}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div id="chat-box">
+                    <input id="current_room_label" type="hidden" value="{{ room.label }}">
+                    <input id="sender" type="hidden" value="{{ username }}">
+
+                    <input id="chat-message-input" type="text" placeholder="Message..."/>
+                    <input id="chat-message-submit" type="button" value="Send"/>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    {% load static %}
+    <script>
+        let roomName = '{{ room.label }}',
+            currentUsername = '{{ username }}';
+    </script>
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 {% endblock %}

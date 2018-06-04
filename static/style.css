@@ -99,3 +99,46 @@ button {
 .online_user_card {
     padding: 1%;
 }
+
+.chat_page_div {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: Raleway, sans-serif;
+}
+
+.chat_box_div {
+    font-family: Raleway, sans-serif;
+    border: 1px solid black;
+    display: block;
+}
+
+#chat-history {
+    overflow-y: scroll;
+}
+
+.one_message {
+    margin: 1.5%;
+    padding: 1%;
+    width: auto;
+    clear: both;
+    border: 1px solid;
+    border-radius: 10%;
+}
+
+.one_message .msg_text {
+    font-size: large;
+}
+
+.one_message .sender_name, .msg_time {
+    text-align: center;
+}
+
+.sent {
+    float: right;
+    background-color: #b5e7a0;
+}
+
+.received {
+    float: left;
+    background-color: cornflowerblue;
+}

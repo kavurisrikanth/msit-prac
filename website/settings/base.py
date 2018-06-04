@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sampleapp.apps.SampleappConfig',
     'social_django',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -103,12 +104,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+ASGI_APPLICATION = 'website.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(config('REDIS_URL'), 6379)],
+        },
+    },
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

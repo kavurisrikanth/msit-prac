@@ -1,17 +1,16 @@
 <h3 class="page_heading">Log in</h3>
 <hr>
 
-<form method="post" action="{% url 'sampleapp:login' %}">
-    {% csrf_token %}
+{% if signin_error %}
+    <div class="error">
+        {{ signin_error }}
+    </div>
+{% endif %}
 
+<form method="post" action="{% url 'sampleapp:login' %}">
     <input type="hidden" id="current_page" value="signin">
 
-    {% if signin_error %}
-        <div class="error">
-            {{ signin_error }}
-        </div>
-    {% endif %}
-
+    {% csrf_token %}
     <table class="form_table">
         <tr>
             <td><label for="username">Username</label></td>
