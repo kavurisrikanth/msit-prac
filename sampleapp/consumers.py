@@ -8,28 +8,25 @@ from .models import Message, Room
 
 log = logging.getLogger(__name__)
 
-
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['u']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.room_group_name = 'chat-%s' % self.room_name
 
         print(self.room_group_name)
         print(self.channel_name)
 
         # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
+        # async_to_sync(self.channel_layer.group_add)(self.room_group_name, self.channel_name)
 
         self.accept()
 
     def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
+        # async_to_sync(self.channel_layer.group_discard)(
+        #     self.room_group_name,
+        #     self.channel_name
+        # )
+        pass
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
