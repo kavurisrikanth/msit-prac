@@ -1,1 +1,1 @@
-web: daphne -p 8001 website.asgi:application
+web: daphne website.asgi:application --port $PORT --bind 0.0.0.0 -v2
