@@ -18,8 +18,6 @@ chatSocket.onmessage = function(e) {
     newDiv.innerHTML += '<p class="sender_name">' + firstName + ' ' + lastName + ' ' + timestamp + '</p>';
     newDiv.innerHTML += '<hr>';
     newDiv.innerHTML += '<p class="msg_text">' + message + '</p>';
-    // newDiv.innerHTML += '<hr>';
-    // newDiv.innerHTML += '<p class="msg_time">' + timestamp + '</p>';
 
     document.querySelector('#chat-history').appendChild(newDiv);
 };

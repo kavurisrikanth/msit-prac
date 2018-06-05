@@ -21,8 +21,6 @@
                             <p class="sender_name">{{ msg.sender.first_name }} {{ msg.sender.last_name }} {{ msg.timestamp|date:"Y-m-d H:i:s" }}</p>
                             <hr>
                             <p class="msg_text">{{ msg.message }}</p>
-{#                            <hr>#}
-{#                            <p class="msg_time"></p>#}
                         </div>
 
                     {% endfor %}
@@ -39,6 +37,7 @@
                                     mdl-button--raised mdl-js-ripple-effect
                                     mdl-button--accent"
                             type="submit">Send</button>
+
                 </div>
             </div>
         </div>
