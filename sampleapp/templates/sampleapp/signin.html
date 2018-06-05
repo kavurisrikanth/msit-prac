@@ -42,12 +42,13 @@
 
 <br>
 
+{% load static %}
 <div class="alt_login_div">
     <a id="github_link" href="{% url 'social:begin' 'github' %}" style="padding-right: 30px">
-        <img class="link_image" src="../../static/images/github_logo_small.jpg" alt="GitHub Logo">
+        <img class="link_image" src="{% static 'images/github_logo_small.jpg' %}" alt="GitHub Logo">
     </a>
 
     <a id="twitter_link" href="{% url 'social:begin' 'twitter' %}">
-        <img class="link_image" src="../../static/images/twitter_logo_small.jpg" alt="Twitter Logo">
+        <img class="link_image" src="{% static 'images/twitter_logo_small.jpg' %}" alt="Twitter Logo">
     </a>
 </div>
