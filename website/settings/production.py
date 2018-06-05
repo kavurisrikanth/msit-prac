@@ -33,7 +33,7 @@ DATABASES = {
     )
 }
 
-STATIC_URL = '/sampleapp/static/'
+STATIC_URL = '/music/sampleapp/static/'
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static'),
     os.path.join(os.path.join(BASE_DIR, 'sampleapp'), 'static'),
