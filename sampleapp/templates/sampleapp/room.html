@@ -33,8 +33,12 @@
                     <input id="current_room_label" type="hidden" value="{{ room.label }}">
                     <input id="sender" type="hidden" value="{{ username }}">
 
-                    <input id="chat-message-input" type="text" placeholder="Message..."/>
-                    <input id="chat-message-submit" type="button" value="Send"/>
+                    <input height="30px" id="chat-message-input" type="text" placeholder="Message..."/>
+                    <button id="chat-message-submit"
+                            class="mdl-button mdl-js-button
+                                    mdl-button--raised mdl-js-ripple-effect
+                                    mdl-button--accent"
+                            type="submit">Send</button>
                 </div>
             </div>
         </div>

@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic import RedirectView
+
 from sampleapp import views as sampleapp_views
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='/music/')),
     url(r'^admin/', admin.site.urls),
     url(r'^music/', include('sampleapp.urls')),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
