@@ -207,20 +207,24 @@ def chat_with(request, u):
     if u == 'all':
         # Global chat
         room, created = Room.objects.get_or_create(label='global')
-        return render_room(room, request)
+        context = { 'chatting_with': 'Everyone' }
+        return render_room(room, request, context)
     else:
         try:
             # Checking if the other user exists
-            User.objects.get(id=u)
+            other_user = User.objects.get(id=u)
 
             # Get the room and render it
             room = get_room(request.user.id, u)
-            render_room(room, request)
+            chatting_with = other_user.first_name + ' ' + other_user.last_name if len(other_user.first_name) > 0 and len(other_user.last_name) > 0 else other_user.username
+
+            context = { 'chatting_with': chatting_with }
+            return render_room(room, request, context)
         except User.DoesNotExist:
             return render(request, 'sampleapp/error.html')
 
 
-def render_room(room, request):
+def render_room(room, request, context):
     """
     Renders a chat room.
     :param room: Chat room object
@@ -228,11 +232,10 @@ def render_room(room, request):
     :return: Rendering of chat room.
     """
     msgs = room.messages.order_by('timestamp')[:50]
-    return render(request, 'sampleapp/room.html', {
-        'room': room,
-        'msgs': msgs,
-        'username': request.user.username
-    })
+    context['room'] = room
+    context['msgs'] = msgs
+    context['username'] = request.user.username
+    return render(request, 'sampleapp/room.html', context)
 
 
 def get_room(this_id, other_id):
@@ -243,6 +246,9 @@ def get_room(this_id, other_id):
     :param other_id: ID of other user.
     :return: Appropriate room.
     """
+    this_id = str(this_id)
+    other_id = str(other_id)
+
     one = this_id + '_' + other_id
     two = other_id + '_' + this_id
 

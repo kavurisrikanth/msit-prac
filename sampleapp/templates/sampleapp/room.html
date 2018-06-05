@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head_title %}
-{{ room.label }} || Ting
+Chat || Ting
 {% endblock %}
 
 {% block content %}
@@ -13,6 +13,10 @@
             </div>
 
             <div class="custom_col chat_box_div">
+                <div id="chat-members">
+                    <h6>Chatting with {{ chatting_with }}</h6>
+                </div>
+
                 <div id="chat-history">
                     {% for msg in msgs %}
                         <div class="one_message {% if msg.sender.username == username %}
