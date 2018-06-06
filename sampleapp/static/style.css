@@ -136,10 +136,11 @@ button {
 .one_message {
     margin: 1.5%;
     padding: 1%;
-    width: auto;
+    max-width: 75%;
     clear: both;
     border: 1px solid;
     border-radius: 10%;
+    overflow-wrap: break-word;
 }
 
 .one_message .msg_text {
@@ -158,4 +159,8 @@ button {
 .received {
     float: left;
     background-color: cornflowerblue;
+}
+
+.msg_text {
+    cursor: pointer;
 }

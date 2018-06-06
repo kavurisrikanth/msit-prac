@@ -9,7 +9,19 @@ Chat || Ting
     <div class="chat_page_div">
         <div class="side_by_side">
             <div class="custom_col">
-                Piano placeholder
+{#                Piano placeholder#}
+                <div class = "mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col"></div>
+                    <div id="piano" class="mdl-cell mdl-cell--8-col">
+                        <div id="white"></div>
+                        <div id="black"></div>
+                        <div id="audio" onerror="location.reload()"></div>
+                    </div>
+                </div>
+                <div class = "mdl-grid">
+                        <div class="mdl-cell mdl-cell--2-col"></div>
+                    <div id='win' class="mdl-cell mdl-cell--8-col"></div>
+                </div>
             </div>
 
             <div class="custom_col chat_box_div">
@@ -36,11 +48,11 @@ Chat || Ting
                     <input id="sender" type="hidden" value="{{ username }}">
 
                     <input id="chat-message-input" type="text" placeholder="Message..."/>
-                    <button id="chat-message-submit"
-                            class="mdl-button mdl-js-button
-                                    mdl-button--raised mdl-js-ripple-effect
-                                    mdl-button--accent"
-                            type="submit">Send</button>
+{#                    <button id="chat-message-submit"#}
+{#                            class="mdl-button mdl-js-button#}
+{#                                    mdl-button--raised mdl-js-ripple-effect#}
+{#                                    mdl-button--accent"#}
+{#                            type="submit">Send</button>#}
 
                 </div>
             </div>
@@ -55,5 +67,17 @@ Chat || Ting
             currentUsername = '{{ username }}';
     </script>
     <script type="text/javascript" src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
+    <script>
+        let notesDirectory = '{% static "notes" %}';
+    </script>
+    <script type="text/javascript" src="{% static 'js/piano.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/notes.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translators/translator.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translators/retranslator.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/arm.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/keyboard.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/window_fnc.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/index.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/window_dom.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 {% endblock %}

@@ -54,6 +54,7 @@ class ChatConsumer(WebsocketConsumer):
             room = Room.objects.get(label=label)
             sender = User.objects.get(username=sender_username)
             new_msg = Message.objects.create(room=room, message=message, sender=sender, timestamp=datetime.now())
+            print('inserted new message: ' + new_msg.message)
 
             self.send(text_data=json.dumps({
                 'message': message,

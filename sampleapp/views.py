@@ -271,7 +271,11 @@ def render_room(room, request, context):
     :param request: HTTP request object
     :return: Rendering of chat room.
     """
-    msgs = room.messages.order_by('timestamp')[:50]
+    msgs = room.messages.order_by('timestamp')
+    # msgs = []
+    # for msg in msgs:
+        # unique_id = msg.timestamp.strftime("%Y-%m-%d%H:%M:%S")
+        # msgs.append((msg, unique_id))
     context['room'] = room
     context['msgs'] = msgs
     context['username'] = request.user.username
