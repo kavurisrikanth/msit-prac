@@ -42,6 +42,19 @@ def index_view(request):
         context['signin_username'] = kwargs.pop('signin_username', None)
         context['redirect_from'] = kwargs.pop('redirect_from', None)
 
+        uname = kwargs.pop('signup_username', None)
+        email = kwargs.pop('signup_email', None)
+        fname = kwargs.pop('signup_fname', None)
+        lname = kwargs.pop('signup_lname', None)
+
+        if uname and email and fname and lname:
+            signUpForm = SignUpForm(initial={
+                'username': uname,
+                'first_name': fname,
+                'last_name': lname,
+                'email': email,
+            })
+
     context['signup_form'] = signUpForm
 
     return render(request, template, context)
@@ -84,6 +97,16 @@ def signup_view(request):
             # return HttpResponseRedirect(reverse('sampleapp:account_activation_sent'))
         else:
             # messages.error(request, form)
+            username = form.data.get('username')
+            email = form.data.get('email')
+            fname = form.data.get('first_name')
+            lname = form.data.get('last_name')
+
+            request.session['signup_username'] = username
+            request.session['signup_email'] = email
+            request.session['signup_fname'] = fname
+            request.session['signup_lname'] = lname
+
             for key in form.errors:
                 messages.error(request, form.errors.get(key))
             return HttpResponseRedirect(reverse('sampleapp:index'))
