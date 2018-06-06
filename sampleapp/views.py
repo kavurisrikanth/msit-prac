@@ -128,8 +128,19 @@ def home_view(request):
     active_users = get_current_users(request)
     # print (active_users)
 
+    # Get conversations
+    my_conversations = []
+    for obj in Room.objects.all():
+        if obj.contains_user(request.user.id):
+            # Sending data as a tuple.
+            # The tuple will be (room name, room link)
+            my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
+
+    print(my_conversations)
+
     context = {'change_pwd_form': form,
-               'online_users': active_users}
+               'online_users': active_users,
+               'my_conversations': my_conversations}
     return render(request, 'sampleapp/home.html', context)
 
 
@@ -196,13 +207,21 @@ def get_current_users(request):
 
 
 def chat_with(request, u):
+    """
+    Opens the chat window for a specific user.
+    u is either 'all', or the ID of a user.
+    :param request:
+    :param u:
+    :return:
+    """
+    print('user id: ' + str(u))
 
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('sampleapp:index'))
 
     # Can't chat with yourself
-    if u == request.user.id:
-        return render(request, 'sampleapp/error.html')
+    if str(u) == str(request.user.id):
+        return HttpResponseRedirect(reverse('sampleapp:error'))
 
     if u == 'all':
         # Global chat
@@ -223,6 +242,9 @@ def chat_with(request, u):
         except User.DoesNotExist:
             return render(request, 'sampleapp/error.html')
 
+
+def error_view(request):
+    return render(request, 'sampleapp/error.html')
 
 def render_room(room, request, context):
     """

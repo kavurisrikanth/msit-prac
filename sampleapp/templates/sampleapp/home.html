@@ -26,12 +26,23 @@
                 <hr>
 
                 <div class="custom_row side_by_side">
-                    <div class="custom_col left">
-                        Conversations placeholder.
+                    <div class="custom_col">
+                        <h5 class="piece_heading">Your conversations</h5>
+                        {% for name, link in my_conversations %}
+                            <div class="one_conversation">
+                                <form action="{% url 'sampleapp:chat' u=link %}">
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                        type="submit">{{ name }}</button>
+                                </form>
+{#                                <a href="{% url 'sampleapp:chat' u=link %}">{{ name }}</a>#}
+                            </div>
+                            <br>
+                        {% endfor %}
+
                     </div>
-                    <div class="custom_col right">
-                        SoundCloud placeholder.
-                    </div>
+{#                    <div class="custom_col right">#}
+{#                        SoundCloud placeholder.#}
+{#                    </div>#}
                 </div>
             </div>
         </section>

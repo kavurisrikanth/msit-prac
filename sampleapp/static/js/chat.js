@@ -15,7 +15,8 @@ window.onload = function () {
 
         let newDiv = document.createElement('div');
 
-        newDiv.setAttribute('class', 'one_message ' + (sender === currentUsername) ? 'sent': 'received');
+        let requiredClass = 'one_message ' + ((sender === currentUsername) ? 'sent': 'received');
+        newDiv.setAttribute('class', requiredClass);
         newDiv.innerHTML += '<p class="sender_name">' + firstName + ' ' + lastName + ' ' + timestamp + '</p>';
         newDiv.innerHTML += '<hr>';
         newDiv.innerHTML += '<p class="msg_text">' + message + '</p>';

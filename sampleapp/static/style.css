@@ -108,14 +108,30 @@ button {
 
 .chat_box_div {
     font-family: Raleway, sans-serif;
-    border: 1px solid black;
     display: block;
 }
 
 #chat-history {
-    overflow-y: scroll;
+    border: 1px solid black;
+    overflow-y: auto;
 }
 
+#chat-members {
+    font-family: Montserrat, sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#chat-box {
+    margin: 1%;
+    margin-top: 1.2%;
+}
+
+#chat-message-input {
+    line-height: 190%;
+    width: 80%;
+    margin: 1%;
+}
 
 .one_message {
     margin: 1.5%;

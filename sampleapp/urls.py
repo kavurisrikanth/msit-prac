@@ -25,6 +25,7 @@ urlpatterns += [
     url(r'^change/$', views.change_pwd, name='change_pwd'),
     url(r'^home/$', views.home_view, name='home'),
     url(r'^profile/$', views.profile_view, name='profile'),
+    url(r'^error/$', views.error_view, name='error'),
 ]
 
 # Authentication operations

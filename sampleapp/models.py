@@ -34,6 +34,60 @@ class Room(models.Model):
     name = models.TextField()
     label = models.SlugField(unique=True)
 
+    def contains_user(self, id):
+        if self.label == 'global':
+            try:
+                uname = User.objects.get(id=id)
+                my_msgs = self.messages.filter(sender__username__iexact=uname.username)
+                if my_msgs:
+                    return True
+                else:
+                    return False
+            except User.DoesNotExist:
+                return False
+
+        one, other = self.label.split('_')
+        return str(one) == str(id) or str(other) == str(id)
+
+    def get_room_name(self, user_id):
+        """
+        Returns the room name, usually the name of the other person.
+        :return: Name
+        """
+        if self.label == 'global':
+            return 'Global'
+
+        other = self.get_other_participant(user_id)
+        other_obj = User.objects.get(id=other)
+
+        if len(other_obj.first_name) != 0 and len(other_obj.last_name) != 0:
+            return other_obj.first_name + ' ' + other_obj.last_name
+        else:
+            return other_obj.username
+
+    def get_other_participant(self, user_id):
+        one, other = self.label.split('_')
+        one = str(one)
+        other = str(other)
+
+        if one == user_id:
+            return other
+
+        return one
+
+    def get_room_link(self, user_id):
+        """
+        Returns the "room link". This basically means the method returns either the string 'all',
+        or the ID of the other participant.
+        :param user_id:
+        :return:
+        """
+
+        if self.label == 'global':
+            return 'all'
+
+        return self.get_other_participant(user_id)
+
 
 # Database model for Chat Message
 class Message(models.Model):
