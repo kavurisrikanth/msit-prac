@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import datetime
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -52,7 +53,7 @@ class ChatConsumer(WebsocketConsumer):
         try:
             room = Room.objects.get(label=label)
             sender = User.objects.get(username=sender_username)
-            new_msg = Message.objects.create(room=room, message=message, sender=sender)
+            new_msg = Message.objects.create(room=room, message=message, sender=sender, timestamp=datetime.now())
 
             self.send(text_data=json.dumps({
                 'message': message,

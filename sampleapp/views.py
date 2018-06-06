@@ -117,7 +117,6 @@ def signup_view(request):
 def login_view(request):
     if request.method == 'POST':
         # Correct login method.
-        print('entered')
         uname = request.POST.get('username')
         pwd = request.POST.get('pwd')
 
@@ -158,8 +157,6 @@ def home_view(request):
             # Sending data as a tuple.
             # The tuple will be (room name, room link)
             my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
-
-    print(my_conversations)
 
     context = {'change_pwd_form': form,
                'online_users': active_users,
@@ -237,8 +234,6 @@ def chat_with(request, u):
     :param u:
     :return:
     """
-    print('user id: ' + str(u))
-
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('sampleapp:index'))
 
