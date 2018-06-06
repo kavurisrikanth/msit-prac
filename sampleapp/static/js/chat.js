@@ -1,4 +1,4 @@
-window.onload(function () {
+window.onload = function () {
     let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     let chatSocket = new ReconnectingWebSocket(
         ws_scheme + '://' +
@@ -48,4 +48,4 @@ window.onload(function () {
 
         messageInputDom.value = '';
     };
-});
+};
