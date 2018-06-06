@@ -125,9 +125,9 @@
     this.assist = function() {
         var n;
         for (n = 0; n < notes.w_c.length; n++) 
-            $("a" + notes.w_c[n] + "d").innerHTML = "<br/><br/><br/><br/><br/><br/>" + notes.w_n[n];
+            $("#a" + notes.w_c[n] + "d").innerHTML = "<br/><br/><br/><br/><br/><br/>" + notes.w_n[n];
         for (n = 0; n < notes.b_c.length; n++) 
-        $("b" + notes.b_c[n] + "d").innerHTML = "<br/><br/><br/><br/>" + notes.b_n_[n];
+            $("#b" + notes.b_c[n] + "d").innerHTML = "<br/><br/><br/><br/>" + notes.b_n_[n];
     };
     this.delayer = function(n, t) {
         var i = $(n + "d");
