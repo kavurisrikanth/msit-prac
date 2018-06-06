@@ -13,8 +13,7 @@ chatSocket.onmessage = function(e) {
 
     let newDiv = document.createElement('div');
 
-    newDiv.setAttribute('class', 'one_message');
-    newDiv.setAttribute('class', (sender === currentUsername) ? 'sent': 'received');
+    newDiv.setAttribute('class', 'one_message ' + (sender === currentUsername) ? 'sent': 'received');
     newDiv.innerHTML += '<p class="sender_name">' + firstName + ' ' + lastName + ' ' + timestamp + '</p>';
     newDiv.innerHTML += '<hr>';
     newDiv.innerHTML += '<p class="msg_text">' + message + '</p>';

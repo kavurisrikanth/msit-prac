@@ -61,7 +61,7 @@ def signup_view(request):
             # user.is_active = False
             user.is_active = True
             user.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect(reverse('sampleapp:home'))
 
             # current_site = get_current_site(request)
