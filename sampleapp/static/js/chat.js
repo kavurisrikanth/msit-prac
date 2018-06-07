@@ -1,7 +1,5 @@
 window.onload = function () {
-    console.log('starting');
     markHistory('#chat-history');
-    console.log('done');
 
     let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     let chatSocket = new ReconnectingWebSocket(

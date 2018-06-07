@@ -7,10 +7,10 @@
 {% block tab_bar %}
     <!-- Tabs -->
     <div class = "mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#go-tab" class="mdl-layout__tab is-active">Go Ting!</a>
-        <a href="#social-tab" class="mdl-layout__tab">Socialize</a>
-        <a href="#profile-tab" class="mdl-layout__tab">Profile</a>
-        <a href="#change-pwd-tab" class="mdl-layout__tab">Change Password</a>
+        <a href="#go-tab" class="mdl-layout__tab is-active" onclick="muted = false;">Go Ting!</a>
+        <a href="#social-tab" class="mdl-layout__tab" onclick="muted = true;">Socialize</a>
+        <a href="#profile-tab" class="mdl-layout__tab" onclick="muted = true;">Profile</a>
+        <a href="#change-pwd-tab" class="mdl-layout__tab" onclick="muted = true;">Change Password</a>
     </div>
 {% endblock %}
 
@@ -56,11 +56,11 @@
             </div>
         </section>
 
-        <!-- History tab -->
+        <!-- Go tab -->
         <section class = "mdl-layout__tab-panel is-active" id = "go-tab">
             <div class = "page-content box_div side_by_side">
 {#                Go Ting placeholder#}
-                <div class="mdl-grid" id="vertical_line_right">
+                <div class="mdl-grid vertical_line_right">
                     {% include "sampleapp/piano.html" %}
                 </div>
 
@@ -70,8 +70,12 @@
                         {% for display_name, msg, timestamp in msg_data %}
                             <div class="one_music">
                                 <div class="music_heading side_by_side">
-                                    <p class="music_name">{{ display_name }}</p>
-                                    <p class="music_time">{{ timestamp }}</p>
+                                    <div class="vertical_line_right msg_name">
+                                        <p class="music_name">{{ display_name }}</p>
+                                    </div>
+                                    <div class="msg_time">
+                                        <p class="music_time">{{ timestamp }}</p>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="music_text">
@@ -101,7 +105,8 @@
     <script>
         let notesDirectory = '{% static "notes" %}',
             hideSend = true,
-            hideRecorder = false;
+            hideRecorder = false,
+            muted = false;
     </script>
     <script type="text/javascript" src="{% static 'js/arm.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/piano.js' %}"></script>

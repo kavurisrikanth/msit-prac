@@ -140,7 +140,6 @@ button {
     clear: both;
     border: 1px solid;
     border-radius: 10%;
-    overflow-wrap: break-word;
 }
 
 .one_music {
@@ -164,13 +163,14 @@ button {
 .msg_text {
     font-size: large;
     cursor: pointer;
+    overflow-wrap: break-word;
 }
 
 .sender_name, .msg_text {
     text-align: center;
 }
 
-#vertical_line_right {
+.vertical_line_right {
     border-right: 1px solid black;
 }
 
@@ -185,4 +185,13 @@ button {
     text-align: right;
     text-align: -moz-right;
     text-align: -webkit-right;
+}
+
+/* Messages */
+.msg_name {
+    padding-right: 2.75%;
+}
+
+.msg_time {
+    padding-left: 2.75%;
 }
