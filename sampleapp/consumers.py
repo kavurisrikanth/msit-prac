@@ -16,10 +16,10 @@ class ChatConsumer(WebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['u']
         self.room_group_name = 'chat-%s' % self.room_name
 
+        self.accept()
+
         # Join room group
         async_to_sync(self.channel_layer.group_add)(self.room_group_name, self.channel_name)
-
-        self.accept()
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
