@@ -37,7 +37,10 @@
         <!-- Try it out tab -->
         <section class = "mdl-layout__tab-panel" id = "tryit-tab">
             <div class = "page-content box_div">
-                Try it out placeholder
+{#                Try it out placeholder#}
+                <div class="mdl-grid">
+                    {% include "sampleapp/piano.html" %}
+                </div>
             </div>
         </section>
 
@@ -47,7 +50,11 @@
 {% if redirect_from %}
     {% block custom_js %}
         <script>
-            let redirectFrom = "{{ redirect_from }}";
+            let redirectFrom = "{{ redirect_from }}",
+                hideSend = true,
+                hideRecorder = true;
         </script>
+
+        {% include "sampleapp/piano_js.html" %}
     {% endblock %}
 {% endif %}

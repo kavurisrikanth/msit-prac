@@ -9,7 +9,7 @@ body {
     -ms-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    margin: 35px 0 0 0;
+    /*margin: 35px 0 0 0;*/
     background: url(images/5.jpg);
     background-repeat: no-repeat;
     background-size: inherit;

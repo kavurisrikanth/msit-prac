@@ -1,17 +1,7 @@
 window.onload = function () {
-
-    let chatHistory = document.querySelector('#chat-history'),
-        descendants = chatHistory.getElementsByTagName('p');
-    for(let i = 0; i < descendants.length; i++) {
-        someDiv = descendants[i];
-
-        if(someDiv.getAttribute('class') === 'msg_text') {
-            someDiv.addEventListener("click", function (event) {
-                copyAndPlay(event.target.innerText);
-                // console.log(event.target.innerText);
-            });
-        }
-    }
+    console.log('starting');
+    markHistory('#chat-history');
+    console.log('done');
 
     let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     let chatSocket = new ReconnectingWebSocket(
@@ -38,7 +28,6 @@ window.onload = function () {
         newDiv.innerHTML += '<p class="msg_text">' + message + '</p>';
         newDiv.addEventListener('click', function () {
             copyAndPlay(newDiv.querySelector('.msg_text').innerText);
-            // console.log(newDiv.querySelector('.msg_text').innerText);
         });
 
         document.querySelector('#chat-history').appendChild(newDiv);
@@ -71,9 +60,3 @@ window.onload = function () {
         messageInputDom.value = '';
     };
 };
-
-function copyAndPlay(text) {
-    let textArea = document.querySelector('#s1');
-    s1.value = text;
-    piano.recplay();
-}

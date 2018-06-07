@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.sessions.models import Session
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 
 # from sampleapp.models import Room
-from sampleapp.models import Room
-from sampleapp.tokens import account_activation_token
-from website.settings import EMAIL_HOST_USER
+from .models import Room
+from .tokens import account_activation_token
 from .forms import SignUpForm
 
 # Create your views here.
@@ -148,7 +142,6 @@ def about_view(request):
 def home_view(request):
     form = PasswordChangeForm(user=request.user)
     active_users = get_current_users(request)
-    # print (active_users)
 
     # Get conversations
     my_conversations = []
@@ -156,11 +149,22 @@ def home_view(request):
         if obj.contains_user(request.user.id):
             # Sending data as a tuple.
             # The tuple will be (room name, room link)
+            print(request.user.id)
+            print(obj.label)
+            print(obj.get_room_name(request.user.id))
             my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
+
+    my_msgs = request.user.sent_messages.order_by('-timestamp')
+    msg_data = []
+    for msg in my_msgs:
+        msg_data.append((msg.room.get_room_name(request.user.id),
+                             msg.message,
+                             msg.timestamp.strftime("%Y-%m-%d %H:%M:%S")))
 
     context = {'change_pwd_form': form,
                'online_users': active_users,
-               'my_conversations': my_conversations}
+               'my_conversations': my_conversations,
+               'msg_data': msg_data}
     return render(request, 'sampleapp/home.html', context)
 
 
@@ -305,6 +309,18 @@ def get_room(this_id, other_id):
             new_room = Room.objects.create(label=one)
             return new_room
 
+
+def get_display_name(user):
+    if len(user.first_name) > 0 and len(user.last_name) > 0:
+        return user.first_name + ' ' + user.last_name
+
+    if len(user.first_name) > 0:
+        return user.first_name
+
+    if len(user.last_name) > 0:
+        return user.last_name
+
+    return user.username
 
 '''
 Not used. The relics of history (and editing and common sense).

@@ -66,9 +66,16 @@ class Room(models.Model):
             return other_obj.username
 
     def get_other_participant(self, user_id):
+        """
+        Returns the other participant in the chat.
+        It is assumed that the user_id is a number.
+        :param user_id:
+        :return:
+        """
         one, other = self.label.split('_')
         one = str(one)
         other = str(other)
+        user_id = str(user_id)
 
         if one == user_id:
             return other

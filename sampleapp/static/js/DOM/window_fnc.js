@@ -15,8 +15,8 @@
          $("s1").style.height = "270px", 
          $("s1").readOnly = !1, 
          $("rec_bkg_title").innerHTML = "Recorder",
-         $("recplay").style.visibility = "visible",  
-         $("rec_tb3").style.visibility = "visible");
+         $("recplay").style.visibility = "visible");
+         // $("rec_tb3").style.visibility = "visible");
     };
     this.hider = function () {
         $("sheet_play").value = "► Play";

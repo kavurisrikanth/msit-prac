@@ -4,30 +4,30 @@
     var o = $("win"),
         n, f = document.createElement("div");
     f.id = "rec_bkg",
-    n = document.createElement("span"), 
-    n.id = "rec_bkg_title", 
-    i = document.createTextNode("Recorder"), 
-    n.appendChild(i), 
-    f.appendChild(n),  
-    o.appendChild(f), 
+    n = document.createElement("span"),
+    n.id = "rec_bkg_title",
+    i = document.createTextNode("Recorder"),
+    n.appendChild(i),
+    f.appendChild(n),
+    o.appendChild(f),
 
-    e = document.createElement("span"), 
-    e.id = "sheet_tb1", 
+    e = document.createElement("span"),
+    e.id = "sheet_tb1",
     u = document.createElement("input");
     u.id = "sheet_play";
     u.type = "button";
     u.setAttribute('class', 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent');
     u.value = "► Play";
     u.setAttribute("onclick", "piano.recplay()");
-    e.appendChild(u);  
+    e.appendChild(u);
     t = document.createElement("span");
     t.id = "sheet_stop_sep";
     t.className = "sep";
     i = document.createTextNode(" | ");
     t.appendChild(i);
     e.appendChild(t);
-    
-    
+
+
     u = document.createElement("input");
     u.id = "sheet_stop";
     u.type = "button";
@@ -44,7 +44,7 @@
     h.value = "● Record";
     h.setAttribute("onclick", "piano.recplay(true)");
     o.appendChild(h);
-    
+
     // form_sub = document.createElement("form");
     //form_sub.setAttribute("name", "sent");
     //form_sub.setAttribute("action", "/")
@@ -68,8 +68,11 @@
     o.appendChild(v);
     // form_sub.appendChild(v);
     // o.appendChild(form_sub)
-    
-    win_fnc.viewer()
-    piano.assist(); 
+
+    win_fnc.viewer();
 }
-win_dom();
+
+if(!hideRecorder) {
+    win_dom();
+}
+piano.assist();

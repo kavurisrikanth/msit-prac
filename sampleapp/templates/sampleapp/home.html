@@ -7,9 +7,9 @@
 {% block tab_bar %}
     <!-- Tabs -->
     <div class = "mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#home-tab" class="mdl-layout__tab is-active">Home</a>
+        <a href="#go-tab" class="mdl-layout__tab is-active">Go Ting!</a>
+        <a href="#social-tab" class="mdl-layout__tab">Socialize</a>
         <a href="#profile-tab" class="mdl-layout__tab">Profile</a>
-        <a href="#history-tab" class="mdl-layout__tab">History</a>
         <a href="#change-pwd-tab" class="mdl-layout__tab">Change Password</a>
     </div>
 {% endblock %}
@@ -18,7 +18,7 @@
     <main class="mdl-layout__content">
 
         <!-- Home tab -->
-        <section class = "mdl-layout__tab-panel is-active" id = "home-tab">
+        <section class = "mdl-layout__tab-panel" id = "social-tab">
             <div class = "page-content box_div">
                 <!-- Home -->
                 {% load static %}
@@ -57,9 +57,32 @@
         </section>
 
         <!-- History tab -->
-        <section class = "mdl-layout__tab-panel" id = "history-tab">
-            <div class = "page-content box_div">
-                History placeholder
+        <section class = "mdl-layout__tab-panel is-active" id = "go-tab">
+            <div class = "page-content box_div side_by_side">
+{#                Go Ting placeholder#}
+                <div class="mdl-grid" id="vertical_line_right">
+                    {% include "sampleapp/piano.html" %}
+                </div>
+
+                <div class="mdl-cell mdl-cell--6-col">
+                    <h6 class="piece_heading">Your Music</h6>
+                    <div id="music_history">
+                        {% for display_name, msg, timestamp in msg_data %}
+                            <div class="one_music">
+                                <div class="music_heading side_by_side">
+                                    <p class="music_name">{{ display_name }}</p>
+                                    <p class="music_time">{{ timestamp }}</p>
+                                </div>
+                                <hr>
+                                <div class="music_text">
+                                    <p class="msg_text">{{ msg }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -72,4 +95,26 @@
         </section>
 
     </main>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        let notesDirectory = '{% static "notes" %}',
+            hideSend = true,
+            hideRecorder = false;
+    </script>
+    <script type="text/javascript" src="{% static 'js/arm.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/piano.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/notes.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translators/translator.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translators/retranslator.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/keyboard.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/window_fnc.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/index.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'js/DOM/window_dom.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/play_music.js' %}"></script>
+    <script>
+        markHistory("#music_history");
+    </script>
 {% endblock %}
