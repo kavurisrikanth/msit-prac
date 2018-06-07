@@ -14,8 +14,6 @@ class SignUpForm(forms.Form):
     last_name = forms.CharField(label='Enter last name',
                                 max_length=50,
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name (Optional)'}))
-    email = forms.EmailField(label='Enter email',
-                             widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
     password1 = forms.CharField(label='Enter password',
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     password2 = forms.CharField(label='Confirm password',
@@ -28,12 +26,12 @@ class SignUpForm(forms.Form):
             raise ValidationError("Username %s is already taken" % uname)
         return uname
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email').lower()
-        qset = User.objects.filter(email=email)
-        if qset.count() > 0:
-            raise ValidationError("Account with email address %s exists! Please log in." % email)
-        return email
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email').lower()
+    #     qset = User.objects.filter(email=email)
+    #     if qset.count() > 0:
+    #         raise ValidationError("Account with email address %s exists! Please log in." % email)
+    #     return email
 
     def clean_password2(self):
         pwd1 = self.cleaned_data.get('password1')
@@ -49,7 +47,6 @@ class SignUpForm(forms.Form):
             username=self.cleaned_data.get('username'),
             first_name=self.cleaned_data.get('first_name'),
             last_name=self.cleaned_data.get('last_name'),
-            email=self.cleaned_data.get('email'),
             password=self.cleaned_data.get('password1')
         )
         return user
