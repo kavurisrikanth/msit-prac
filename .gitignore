@@ -1,6 +1,9 @@
 db.sqlite3
 temp.txt
 
+**/full_*.js
+**/full_*.css
+
 __pycache__/
 *.py[cod]
 *$py.class
