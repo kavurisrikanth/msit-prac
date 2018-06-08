@@ -6,7 +6,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth.models import User
 
-from .models import Message, Room
+from .models import Message, Room, MusicPiece
 
 log = logging.getLogger(__name__)
 
@@ -53,8 +53,10 @@ class ChatConsumer(WebsocketConsumer):
         try:
             room = Room.objects.get(label=label)
             sender = User.objects.get(username=sender_username)
-            new_msg = Message.objects.create(room=room, message=message, sender=sender, timestamp=datetime.now())
-            print('inserted new message: ' + new_msg.message)
+            now = datetime.now()
+
+            new_msg = Message.objects.create(room=room, message=message, sender=sender, timestamp=now)
+            MusicPiece.objects.create(creator=sender, text=message, created=now)
 
             self.send(text_data=json.dumps({
                 'message': message,

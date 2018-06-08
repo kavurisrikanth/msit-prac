@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -15,7 +17,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 
 # from sampleapp.models import Room
-from .models import Room
+from .models import Room, MusicPiece
 from .tokens import account_activation_token
 from .forms import SignUpForm
 
@@ -140,32 +142,33 @@ def about_view(request):
 
 @login_required(login_url='/music/login/')
 def home_view(request):
-    form = PasswordChangeForm(user=request.user)
-    active_users = get_current_users(request)
+    if request.method == 'POST':
+        notes = request.POST.get('message')
+        MusicPiece.objects.create(creator=request.user, text=notes, created=datetime.now())
+        return HttpResponseRedirect(reverse('sampleapp:home'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+        active_users = get_current_users(request)
 
-    # Get conversations
-    my_conversations = []
-    for obj in Room.objects.all():
-        if obj.contains_user(request.user.id):
-            # Sending data as a tuple.
-            # The tuple will be (room name, room link)
-            print(request.user.id)
-            print(obj.label)
-            print(obj.get_room_name(request.user.id))
-            my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
+        # Get conversations
+        my_conversations = []
+        for obj in Room.objects.all():
+            if obj.contains_user(request.user.id):
+                # Sending data as a tuple.
+                # The tuple will be (room name, room link)
+                my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
 
-    my_msgs = request.user.sent_messages.order_by('-timestamp')
-    msg_data = []
-    for msg in my_msgs:
-        msg_data.append((msg.room.get_room_name(request.user.id),
-                             msg.message,
-                             msg.timestamp.strftime("%Y-%m-%d %H:%M:%S")))
+        # my_msgs = request.user.sent_messages.order_by('-timestamp')
+        my_msgs = MusicPiece.objects.all().filter(creator=request.user)
+        msg_data = []
+        for msg in my_msgs:
+            msg_data.append((msg.text, msg.created.strftime("%Y-%m-%d %H:%M:%S")))
 
-    context = {'change_pwd_form': form,
-               'online_users': active_users,
-               'my_conversations': my_conversations,
-               'msg_data': msg_data}
-    return render(request, 'sampleapp/home.html', context)
+        context = {'change_pwd_form': form,
+                   'online_users': active_users,
+                   'my_conversations': my_conversations,
+                   'msg_data': msg_data}
+        return render(request, 'sampleapp/home.html', context)
 
 
 @login_required(login_url='/music/login')
