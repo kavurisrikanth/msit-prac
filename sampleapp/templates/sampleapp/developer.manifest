@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+CACHE:
+room.html
+home.html
+../../static/notes/*.mp3
+../../static/notes/*.ogg
+
+NETWORK:
+room.html
+
+FALLBACK:
+*.html

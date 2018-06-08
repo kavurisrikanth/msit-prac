@@ -1,1 +1,1 @@
-window.onload=function(){markHistory("#music_history")};
+window.onload=function(){markHistory("#music_history");let musicHistory=document.getElementById('music_history');jQuery("#music_history").animate({scrollTop:musicHistory.scrollHeight-musicHistory.clientHeight},500);}

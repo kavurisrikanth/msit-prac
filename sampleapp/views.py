@@ -159,7 +159,7 @@ def home_view(request):
                 my_conversations.append((obj.get_room_name(request.user.id), obj.get_room_link(request.user.id)))
 
         # my_msgs = request.user.sent_messages.order_by('-timestamp')
-        my_msgs = MusicPiece.objects.all().filter(creator=request.user)
+        my_msgs = MusicPiece.objects.all().filter(creator=request.user).order_by('created')
         msg_data = []
         for msg in my_msgs:
             msg_data.append((msg.text, msg.created.strftime("%Y-%m-%d %H:%M:%S")))
