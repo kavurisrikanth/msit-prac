@@ -3,4 +3,5 @@ n=document.createElement("div"),n.id="a"+notes.w_c[t]+"d",n.className="w",n.setA
 n=document.createElement("div"),n.id="b"+notes.b_c[t]+"d",n.className="b",n.setAttribute("onmousedown","piano.music('b"+notes.b_c[t]+"',3)"),n.setAttribute("onmouseover","piano.chkdsk('b"+notes.b_c[t]+"',3)"),n.style.left=notes.b_coo[t]+"px",n.style.top="10px",f.appendChild(n);for(t=0;t<2;t++)
 for(i=0;i<r[t][1].length;i++)
 n=document.createElement("audio"),n.id=r[t][0]+r[t][1][i],n.canPlayType("audio/mpeg;")?(n.type="audio/mpeg",n.src=notesDirectory+"/"+n.id+".mp3"):(n.type="audio/mpeg",n.src=notesDirectory+"/"+n.id+".ogg"),$("audio").appendChild(n)}
-index();
+let appCache=window.applicationCache;if(appCache.status===appCache.UPDATEREADY){appCache.swapCache()}
+index()
